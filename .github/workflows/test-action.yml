@@ -10,7 +10,7 @@ jobs:
 
       - name: Test Local Action
         id: testing-distribution
-        uses: appcircleio/appcircle-testing-distribution-githubaction@v0.0.1
+        uses: ./
         with:
           accessToken: ${{ secrets.AC_ACCESS_TOKEN }}
           entProfileId: ${{ secrets.AC_PROFILE_ID }}
