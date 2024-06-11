@@ -13,6 +13,8 @@ jobs:
         uses: appcircleio/appcircle-testing-distribution-githubaction@v0.0.1
         with:
           accessToken: ${{ secrets.AC_ACCESS_TOKEN }}
-          profileID: ${{ secrets.AC_PROFILE_ID }}
+          entProfileId: ${{ secrets.AC_PROFILE_ID }}
           appPath: ./Appcircle.ipa
-          message: Github Action Message
+          summary: Github Action Summary
+          releaseNotes: Github Action Release Notes
+          publishType: '0'

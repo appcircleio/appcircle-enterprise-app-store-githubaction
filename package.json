@@ -1,16 +1,16 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
+  "name": "appcircle-enterprise-store",
+  "description": "Enterprise Mobile App Store",
   "version": "0.0.1",
   "author": "",
   "private": true,
-  "homepage": "https://github.com/appcircleio/appcircle-testing-distribution-githubaction",
+  "homepage": "https://github.com/appcircleio/appcircle-enterprise-store-githubaction",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appcircleio/appcircle-testing-distribution-githubaction.git"
+    "url": "git+https://github.com/appcircleio/appcircle-enterprise-store-githubaction.git"
   },
   "bugs": {
-    "url": "https://github.com/appcircleio/appcircle-testing-distribution-githubaction/issues"
+    "url": "https://github.com/appcircleio/appcircle-enterprise-store-githubaction/issues"
   },
   "keywords": [
     "app store",

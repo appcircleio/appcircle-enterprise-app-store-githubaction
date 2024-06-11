@@ -1,8 +1,6 @@
-name: 'Appcircle Testing Distribution'
+name: 'Appcircle Enterprise Store'
 author: 'appcircleio'
-description:
-  "Efficiently distribute application builds to users or testing groups using
-  Appcircle's robust platform."
+description: 'Efficiently publish your apps to Appcircle Enterprise Store.'
 
 branding:
   icon: 'icon.png'
@@ -15,10 +13,11 @@ inputs:
       Appcircle services. This token allows your Azure DevOps pipeline to
       interact with Appcircle for distributing applications'
     required: true
-  profileID:
+  entProfileId:
     description:
-      'Enter the ID of the Appcircle distribution profile. This ID uniquely
-      identifies the profile under which your applications will be distributed'
+      'Provide the Appcircle Enterprise App Store Mobile Profile ID to specify
+      the profile to be used for the publishment. This ID can be found in the
+      Enterprise App Store Mobile module dashboard.'
     required: true
   appPath:
     description:
@@ -26,11 +25,16 @@ inputs:
       .xcarchive file path. For Android, specify the .apk or .appbundle file
       path'
     required: true
-  message:
-    description:
-      'Message to include with the distribution to provide additional
-      information to testers or users receiving the build'
+  summary:
+    description: 'Summary Notes For Publishment'
     required: true
+  releaseNotes:
+    description: 'Release Notes For Publishment'
+    required: true
+  publishType:
+    description: 'Publish Type' # 0: None, 1: Beta, 2: Live
+    required: false
+    default: '0'
 runs:
   using: 'node20'
   main: 'dist/index.js'

@@ -24960,11 +24960,16 @@ async function run() {
     try {
         (0, child_process_1.execSync)(`npm install -g @appcircle/cli`, { stdio: 'inherit' });
         const accessToken = core.getInput('accessToken');
-        const profileID = core.getInput('profileID');
+        const entProfileId = core.getInput('entProfileId');
         const appPath = core.getInput('appPath');
         const message = core.getInput('message');
         (0, child_process_1.execSync)(`appcircle login --pat=${accessToken}`, { stdio: 'inherit' });
-        (0, child_process_1.execSync)(`appcircle testing-distribution upload --app=${appPath} --distProfileId=${profileID} --message "${message}"`, { encoding: 'utf-8' });
+        const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`;
+        const output = (0, child_process_1.execSync)(command, { encoding: 'utf-8' });
+        const list = JSON.parse(output);
+        console.log('list:', list);
+        console.log('taskID:', list?.taskId);
+        await checkTaskStatus(list?.taskId);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
@@ -24973,6 +24978,25 @@ async function run() {
     }
 }
 exports.run = run;
+async function checkTaskStatus(taskId, currentAttempt = 0) {
+    const tokenCommand = `appcircle config get AC_ACCESS_TOKEN -o json`;
+    const output = (0, child_process_1.execSync)(tokenCommand, { encoding: 'utf-8' });
+    console.log('typeof OUTPUT:', typeof output);
+    console.log('OUTPUT:', output);
+    const apiAccessToken = JSON.parse(output)?.AC_ACCESS_TOKEN;
+    const response = await fetch(`https://api.appcircle.io/task/v1/tasks/${taskId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiAccessToken}`
+        }
+    });
+    const res = await response.json();
+    console.log('stateValue:', res?.stateValue);
+    if (res?.stateValue == 1 && currentAttempt < 100) {
+        return checkTaskStatus(taskId, currentAttempt + 1);
+    }
+}
 
 
 /***/ }),
