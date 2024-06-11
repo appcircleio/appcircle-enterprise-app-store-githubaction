@@ -27,6 +27,7 @@ export async function run(): Promise<void> {
 
     const versions = execSync(versionCommand, { encoding: 'utf-8' })
     const latestPublishedAppId = JSON.parse(versions)?.[0]?.id
+    console.log('latestPublishedAppId:', latestPublishedAppId)
 
     execSync(
       `appcircle enterprise-app-store version publish --entProfileId ${entProfileId} --entVersionId ${latestPublishedAppId} --summary "${summary}" --releaseNotes "${releaseNotes}" --publishType ${publishType}`,
