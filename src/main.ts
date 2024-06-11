@@ -11,7 +11,9 @@ export async function run(): Promise<void> {
     const accessToken = core.getInput('accessToken')
     const entProfileId = core.getInput('entProfileId')
     const appPath = core.getInput('appPath')
-    const message = core.getInput('message')
+    const summary = core.getInput('summary')
+    const releaseNotes = core.getInput('releaseNotes')
+    const publishType = core.getInput('publishType') ?? '0'
 
     execSync(`appcircle login --pat=${accessToken}`, { stdio: 'inherit' })
     const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
@@ -20,6 +22,16 @@ export async function run(): Promise<void> {
     console.log('list:', list)
     console.log('taskID:', list?.taskId)
     await checkTaskStatus(list?.taskId)
+
+    const versionCommand = `appcircle enterprise-app-store version list --entProfileId ${entProfileId}  -o json`
+
+    const versions = execSync(versionCommand, { encoding: 'utf-8' })
+    const latestPublishedAppId = JSON.parse(versions)?.[0]?.id
+
+    execSync(
+      `appcircle enterprise-app-store version publish --entProfileId ${entProfileId} --entVersionId ${latestPublishedAppId} --summary "${summary}" --releaseNotes "${releaseNotes}" --publishType ${publishType}`,
+      { encoding: 'utf-8' }
+    )
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

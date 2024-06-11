@@ -24962,7 +24962,9 @@ async function run() {
         const accessToken = core.getInput('accessToken');
         const entProfileId = core.getInput('entProfileId');
         const appPath = core.getInput('appPath');
-        const message = core.getInput('message');
+        const summary = core.getInput('summary');
+        const releaseNotes = core.getInput('releaseNotes');
+        const publishType = core.getInput('publishType') ?? '0';
         (0, child_process_1.execSync)(`appcircle login --pat=${accessToken}`, { stdio: 'inherit' });
         const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`;
         const output = (0, child_process_1.execSync)(command, { encoding: 'utf-8' });
@@ -24970,6 +24972,10 @@ async function run() {
         console.log('list:', list);
         console.log('taskID:', list?.taskId);
         await checkTaskStatus(list?.taskId);
+        const versionCommand = `appcircle enterprise-app-store version list --entProfileId ${entProfileId}  -o json`;
+        const versions = (0, child_process_1.execSync)(versionCommand, { encoding: 'utf-8' });
+        const latestPublishedAppId = JSON.parse(versions)?.[0]?.id;
+        (0, child_process_1.execSync)(`appcircle enterprise-app-store version publish --entProfileId ${entProfileId} --entVersionId ${latestPublishedAppId} --summary "${summary}" --releaseNotes "${releaseNotes}" --publishType ${publishType}`, { encoding: 'utf-8' });
     }
     catch (error) {
         // Fail the workflow run if an error occurs
