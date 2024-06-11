@@ -17,4 +17,4 @@ jobs:
           appPath: ./Appcircle.ipa
           summary: Github Action Summary
           releaseNotes: Github Action Release Notes
-          publishType: '0'
+          publishType: '1'
