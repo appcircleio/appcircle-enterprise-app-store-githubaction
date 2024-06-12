@@ -3,8 +3,8 @@ author: 'appcircleio'
 description: 'Efficiently publish your apps to Appcircle Enterprise Store.'
 
 branding:
-  icon: 'icon.png'
-  color: 'blue'
+  icon: 'activity'
+  color: 'orange'
 
 inputs:
   accessToken:
