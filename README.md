@@ -60,17 +60,16 @@ To generate a Personal API Token:
 ## How to use Appcircle Enterprise Store Action
 
 ```yml
-  lane :publish_app do
-    appcircle_enterprise_store(
-      accessToken: "${{ secrets.AC_ACCESS_TOKEN }}",
-      entProfileId: "${{ secrets.ENT_PROFILE_ID }}",
-      appPath: ".${{ secrets.APP_PATH }}",
-      summary: "SUMMARY",
-      releaseNotes: "RELEASE_NOTES",
-      publishType: "1" # 0: None, 1: Beta, 2: Live
-    )
-  end
-
+- name: Publish App to Appcircle
+  id: store-publish-appcircle
+  uses: ./
+  with:
+    accessToken: ${{ secrets.AC_ACCESS_TOKEN }}
+    entProfileId: ${{ secrets.AC_PROFILE_ID }}
+    appPath: ./Appcircle.ipa
+    summary: Github Action Summary
+    releaseNotes: Github Action Release Notes
+    publishType: '1' # None: 0, 1: Beta, 2: Live
 ```
 
 ### Leveraging Environment Variables
