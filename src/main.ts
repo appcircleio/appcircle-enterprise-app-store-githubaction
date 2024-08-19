@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import { execSync } from 'child_process'
 
 import { getToken } from './api/authApi'
+import { uploadEnterpriseApp } from './api/uploadApi'
 
 /**
  * The main function for the action.
@@ -21,7 +22,9 @@ export async function run(): Promise<void> {
     console.log('Logged in to Appcircle successfully')
     console.log('loginResponse', loginResponse)
 
-    // execSync(`appcircle login --pat=${accessToken}`, { stdio: 'inherit' })
+    const uploadResponse = await uploadEnterpriseApp(appPath)
+    console.log('uploadResponse', uploadResponse)
+
     // const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
     // const output = execSync(command, { encoding: 'utf-8' })
     // const list = JSON.parse(output)

@@ -28447,6 +28447,54 @@ exports.getToken = getToken;
 
 /***/ }),
 
+/***/ 77:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.uploadEnterpriseApp = exports.UploadServiceHeaders = exports.appcircleApi = void 0;
+const axios_1 = __importDefault(__nccwpck_require__(757));
+const fs_1 = __importDefault(__nccwpck_require__(7147));
+const form_data_1 = __importDefault(__nccwpck_require__(334));
+const API_HOSTNAME = 'https://api.appcircle.io';
+exports.appcircleApi = axios_1.default.create({
+    baseURL: API_HOSTNAME.endsWith('/') ? API_HOSTNAME : `${API_HOSTNAME}/`
+});
+class UploadServiceHeaders {
+    static token = '';
+    static getHeaders = () => {
+        let response = {
+            accept: 'application/json',
+            'User-Agent': 'Appcircle Github Action'
+        };
+        response.Authorization = `Bearer ${UploadServiceHeaders.token}`;
+        return response;
+    };
+}
+exports.UploadServiceHeaders = UploadServiceHeaders;
+async function uploadEnterpriseApp(app) {
+    const data = new form_data_1.default();
+    data.append('File', fs_1.default.createReadStream(app));
+    const uploadResponse = await exports.appcircleApi.post(`store/v2/profiles/app-versions`, data, {
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
+        headers: {
+            ...UploadServiceHeaders.getHeaders(),
+            ...data.getHeaders(),
+            'Content-Type': 'multipart/form-data;boundary=' + data.getBoundary()
+        }
+    });
+    return uploadResponse.data;
+}
+exports.uploadEnterpriseApp = uploadEnterpriseApp;
+
+
+/***/ }),
+
 /***/ 399:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -28480,6 +28528,7 @@ exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const child_process_1 = __nccwpck_require__(2081);
 const authApi_1 = __nccwpck_require__(790);
+const uploadApi_1 = __nccwpck_require__(77);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -28496,7 +28545,8 @@ async function run() {
         const loginResponse = await (0, authApi_1.getToken)(accessToken);
         console.log('Logged in to Appcircle successfully');
         console.log('loginResponse', loginResponse);
-        // execSync(`appcircle login --pat=${accessToken}`, { stdio: 'inherit' })
+        const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);
+        console.log('uploadResponse', uploadResponse);
         // const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
         // const output = execSync(command, { encoding: 'utf-8' })
         // const list = JSON.parse(output)
