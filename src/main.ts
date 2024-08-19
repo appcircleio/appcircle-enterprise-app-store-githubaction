@@ -1,6 +1,8 @@
 import * as core from '@actions/core'
 import { execSync } from 'child_process'
 
+import { getToken } from './api/authApi'
+
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -15,20 +17,24 @@ export async function run(): Promise<void> {
     const releaseNotes = core.getInput('releaseNotes')
     const publishType = core.getInput('publishType') ?? '0'
 
-    execSync(`appcircle login --pat=${accessToken}`, { stdio: 'inherit' })
-    const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
-    const output = execSync(command, { encoding: 'utf-8' })
-    const list = JSON.parse(output)
+    const loginResponse = await getToken(accessToken)
+    console.log('Logged in to Appcircle successfully')
+    console.log('loginResponse', loginResponse)
 
-    await checkTaskStatus(list?.taskId)
+    // execSync(`appcircle login --pat=${accessToken}`, { stdio: 'inherit' })
+    // const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
+    // const output = execSync(command, { encoding: 'utf-8' })
+    // const list = JSON.parse(output)
 
-    const versionCommand = `appcircle enterprise-app-store version list --entProfileId ${entProfileId}  -o json`
-    const versions = execSync(versionCommand, { encoding: 'utf-8' })
-    const latestPublishedAppId = JSON.parse(versions)?.[0]?.id
-    execSync(
-      `appcircle enterprise-app-store version publish --entProfileId ${entProfileId} --entVersionId ${latestPublishedAppId} --summary "${summary}" --releaseNotes "${releaseNotes}" --publishType ${publishType}`,
-      { encoding: 'utf-8' }
-    )
+    // await checkTaskStatus(list?.taskId)
+
+    // const versionCommand = `appcircle enterprise-app-store version list --entProfileId ${entProfileId}  -o json`
+    // const versions = execSync(versionCommand, { encoding: 'utf-8' })
+    // const latestPublishedAppId = JSON.parse(versions)?.[0]?.id
+    // execSync(
+    //   `appcircle enterprise-app-store version publish --entProfileId ${entProfileId} --entVersionId ${latestPublishedAppId} --summary "${summary}" --releaseNotes "${releaseNotes}" --publishType ${publishType}`,
+    //   { encoding: 'utf-8' }
+    // )
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
