@@ -2,7 +2,11 @@ import * as core from '@actions/core'
 import { execSync } from 'child_process'
 
 import { getToken } from './api/authApi'
-import { uploadEnterpriseApp, UploadServiceHeaders } from './api/uploadApi'
+import {
+  getEnterpriseProfiles,
+  uploadEnterpriseApp,
+  UploadServiceHeaders
+} from './api/uploadApi'
 
 /**
  * The main function for the action.
@@ -25,6 +29,11 @@ export async function run(): Promise<void> {
 
     const uploadResponse = await uploadEnterpriseApp(appPath)
     console.log('uploadResponse', uploadResponse)
+
+    const entProfiles = await getEnterpriseProfiles()
+    console.log('entProfiles', entProfiles)
+
+    /*I need to get back a profile id for newly created profiles because i do not know which is the profile for publishment after uploading */
 
     // const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
     // const output = execSync(command, { encoding: 'utf-8' })

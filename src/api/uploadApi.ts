@@ -22,6 +22,37 @@ export class UploadServiceHeaders {
   }
 }
 
+export async function getEnterpriseAppVersions(options: {
+  entProfileId: string
+  publishType: string
+}) {
+  let versionType = ''
+  switch (options.publishType) {
+    case '1':
+      versionType = '?publishtype=Beta'
+      break
+    case '2':
+      versionType = '?publishtype=Live'
+    default:
+      break
+  }
+
+  const profileResponse = await appcircleApi.get(
+    `store/v2/profiles/${options.entProfileId}/app-versions${versionType}`,
+    {
+      headers: UploadServiceHeaders.getHeaders()
+    }
+  )
+  return profileResponse.data
+}
+
+export async function getEnterpriseProfiles() {
+  const buildProfiles = await appcircleApi.get(`store/v2/profiles`, {
+    headers: UploadServiceHeaders.getHeaders()
+  })
+  return buildProfiles.data
+}
+
 export async function uploadEnterpriseApp(app: string) {
   const data = new FormData()
   data.append('File', fs.createReadStream(app))

@@ -28456,7 +28456,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.uploadEnterpriseApp = exports.UploadServiceHeaders = exports.appcircleApi = void 0;
+exports.uploadEnterpriseApp = exports.getEnterpriseProfiles = exports.getEnterpriseAppVersions = exports.UploadServiceHeaders = exports.appcircleApi = void 0;
 const axios_1 = __importDefault(__nccwpck_require__(757));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
 const form_data_1 = __importDefault(__nccwpck_require__(334));
@@ -28476,6 +28476,30 @@ class UploadServiceHeaders {
     };
 }
 exports.UploadServiceHeaders = UploadServiceHeaders;
+async function getEnterpriseAppVersions(options) {
+    let versionType = '';
+    switch (options.publishType) {
+        case '1':
+            versionType = '?publishtype=Beta';
+            break;
+        case '2':
+            versionType = '?publishtype=Live';
+        default:
+            break;
+    }
+    const profileResponse = await exports.appcircleApi.get(`store/v2/profiles/${options.entProfileId}/app-versions${versionType}`, {
+        headers: UploadServiceHeaders.getHeaders()
+    });
+    return profileResponse.data;
+}
+exports.getEnterpriseAppVersions = getEnterpriseAppVersions;
+async function getEnterpriseProfiles() {
+    const buildProfiles = await exports.appcircleApi.get(`store/v2/profiles`, {
+        headers: UploadServiceHeaders.getHeaders()
+    });
+    return buildProfiles.data;
+}
+exports.getEnterpriseProfiles = getEnterpriseProfiles;
 async function uploadEnterpriseApp(app) {
     const data = new form_data_1.default();
     data.append('File', fs_1.default.createReadStream(app));
@@ -28548,6 +28572,9 @@ async function run() {
         console.log('loginResponse', loginResponse);
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);
         console.log('uploadResponse', uploadResponse);
+        const entProfiles = await (0, uploadApi_1.getEnterpriseProfiles)();
+        console.log('entProfiles', entProfiles);
+        /*I need to get back a profile id for newly created profiles because i do not know which is the profile for publishment after uploading */
         // const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
         // const output = execSync(command, { encoding: 'utf-8' })
         // const list = JSON.parse(output)
