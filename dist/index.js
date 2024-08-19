@@ -28543,6 +28543,7 @@ async function run() {
         const releaseNotes = core.getInput('releaseNotes');
         const publishType = core.getInput('publishType') ?? '0';
         const loginResponse = await (0, authApi_1.getToken)(accessToken);
+        uploadApi_1.UploadServiceHeaders.token = loginResponse.access_token;
         console.log('Logged in to Appcircle successfully');
         console.log('loginResponse', loginResponse);
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);

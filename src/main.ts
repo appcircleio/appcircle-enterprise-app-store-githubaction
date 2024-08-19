@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import { execSync } from 'child_process'
 
 import { getToken } from './api/authApi'
-import { uploadEnterpriseApp } from './api/uploadApi'
+import { uploadEnterpriseApp, UploadServiceHeaders } from './api/uploadApi'
 
 /**
  * The main function for the action.
@@ -19,6 +19,7 @@ export async function run(): Promise<void> {
     const publishType = core.getInput('publishType') ?? '0'
 
     const loginResponse = await getToken(accessToken)
+    UploadServiceHeaders.token = loginResponse.access_token
     console.log('Logged in to Appcircle successfully')
     console.log('loginResponse', loginResponse)
 
