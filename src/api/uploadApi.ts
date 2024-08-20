@@ -105,3 +105,13 @@ export async function getProfileId() {
 
   console.log('profiles:', profiles)
 }
+
+export async function checkTaskStatus(taskId: string, currentAttempt = 0) {
+  const response = await appcircleApi.get(`/task/v1/tasks/${taskId}`, {
+    headers: UploadServiceHeaders.getHeaders()
+  })
+
+  if (response?.data.stateValue == 1 && currentAttempt < 100) {
+    return checkTaskStatus(taskId, currentAttempt + 1)
+  }
+}

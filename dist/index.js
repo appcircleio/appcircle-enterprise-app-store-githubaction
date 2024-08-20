@@ -28456,7 +28456,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getProfileId = exports.publishEnterpriseAppVersion = exports.uploadEnterpriseApp = exports.getEnterpriseProfiles = exports.getEnterpriseAppVersions = exports.UploadServiceHeaders = exports.appcircleApi = void 0;
+exports.checkTaskStatus = exports.getProfileId = exports.publishEnterpriseAppVersion = exports.uploadEnterpriseApp = exports.getEnterpriseProfiles = exports.getEnterpriseAppVersions = exports.UploadServiceHeaders = exports.appcircleApi = void 0;
 const axios_1 = __importDefault(__nccwpck_require__(8757));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
 const form_data_1 = __importDefault(__nccwpck_require__(4334));
@@ -28534,6 +28534,15 @@ async function getProfileId() {
     console.log('profiles:', profiles);
 }
 exports.getProfileId = getProfileId;
+async function checkTaskStatus(taskId, currentAttempt = 0) {
+    const response = await exports.appcircleApi.get(`/task/v1/tasks/${taskId}`, {
+        headers: UploadServiceHeaders.getHeaders()
+    });
+    if (response?.data.stateValue == 1 && currentAttempt < 100) {
+        return checkTaskStatus(taskId, currentAttempt + 1);
+    }
+}
+exports.checkTaskStatus = checkTaskStatus;
 
 
 /***/ }),
