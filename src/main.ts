@@ -1,11 +1,10 @@
 import * as core from '@actions/core'
-import { execSync } from 'child_process'
 
 import { getToken } from './api/authApi'
 import {
   checkTaskStatus,
   getEnterpriseAppVersions,
-  getEnterpriseProfiles,
+  getProfileId,
   publishEnterpriseAppVersion,
   uploadEnterpriseApp,
   UploadServiceHeaders
@@ -17,7 +16,6 @@ import {
  */
 export async function run(): Promise<void> {
   try {
-    execSync(`npm install -g @appcircle/cli`, { stdio: 'inherit' })
     const accessToken = core.getInput('accessToken')
     const entProfileId = core.getInput('entProfileId')
     const appPath = core.getInput('appPath')
@@ -41,7 +39,7 @@ export async function run(): Promise<void> {
     }
 
     if (publishType !== '0') {
-      const profileId = await getEnterpriseProfiles()
+      const profileId = await getProfileId()
       const appVersions = await getEnterpriseAppVersions({
         entProfileId: profileId
       })

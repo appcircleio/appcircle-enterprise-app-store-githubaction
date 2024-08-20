@@ -28494,7 +28494,7 @@ async function getEnterpriseAppVersions(options) {
 }
 exports.getEnterpriseAppVersions = getEnterpriseAppVersions;
 async function getEnterpriseProfiles() {
-    const buildProfiles = await exports.appcircleApi.get(`store/v2/profiles?Sort=desc`, {
+    const buildProfiles = await exports.appcircleApi.get(`store/v2/profiles`, {
         headers: UploadServiceHeaders.getHeaders()
     });
     return buildProfiles.data;
@@ -28532,6 +28532,8 @@ async function getProfileId() {
             new Date(a.lastBinaryReceivedDate).getTime());
     }));
     console.log('profiles:', profiles);
+    console.log('latest uploaded profile:', profiles[0].id);
+    return profiles[0].id;
 }
 exports.getProfileId = getProfileId;
 async function checkTaskStatus(taskId, currentAttempt = 0) {
@@ -28584,7 +28586,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
-const child_process_1 = __nccwpck_require__(2081);
 const authApi_1 = __nccwpck_require__(7790);
 const uploadApi_1 = __nccwpck_require__(6077);
 /**
@@ -28593,7 +28594,6 @@ const uploadApi_1 = __nccwpck_require__(6077);
  */
 async function run() {
     try {
-        (0, child_process_1.execSync)(`npm install -g @appcircle/cli`, { stdio: 'inherit' });
         const accessToken = core.getInput('accessToken');
         const entProfileId = core.getInput('entProfileId');
         const appPath = core.getInput('appPath');
@@ -28611,7 +28611,7 @@ async function run() {
             return;
         }
         if (publishType !== '0') {
-            const profileId = await (0, uploadApi_1.getEnterpriseProfiles)();
+            const profileId = await (0, uploadApi_1.getProfileId)();
             const appVersions = await (0, uploadApi_1.getEnterpriseAppVersions)({
                 entProfileId: profileId
             });
@@ -28674,14 +28674,6 @@ module.exports = require("async_hooks");
 
 "use strict";
 module.exports = require("buffer");
-
-/***/ }),
-
-/***/ 2081:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("child_process");
 
 /***/ }),
 

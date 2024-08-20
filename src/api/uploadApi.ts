@@ -47,7 +47,7 @@ export async function getEnterpriseAppVersions(options: {
 }
 
 export async function getEnterpriseProfiles() {
-  const buildProfiles = await appcircleApi.get(`store/v2/profiles?Sort=desc`, {
+  const buildProfiles = await appcircleApi.get(`store/v2/profiles`, {
     headers: UploadServiceHeaders.getHeaders()
   })
   return buildProfiles.data
@@ -104,6 +104,9 @@ export async function getProfileId() {
   )
 
   console.log('profiles:', profiles)
+  console.log('latest uploaded profile:', profiles[0].id)
+
+  return profiles[0].id
 }
 
 export async function checkTaskStatus(taskId: string, currentAttempt = 0) {
