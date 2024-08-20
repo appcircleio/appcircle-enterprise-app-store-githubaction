@@ -77,16 +77,13 @@ export async function run(): Promise<void> {
 }
 
 async function checkTaskStatus(taskId: string, currentAttempt = 0) {
-  const tokenCommand = `appcircle config get AC_ACCESS_TOKEN -o json`
-  const output = execSync(tokenCommand, { encoding: 'utf-8' })
-  const apiAccessToken = JSON.parse(output)?.AC_ACCESS_TOKEN
   const response = await fetch(
     `https://api.appcircle.io/task/v1/tasks/${taskId}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiAccessToken}`
+        Authorization: `Bearer ${UploadServiceHeaders.token}`
       }
     }
   )
