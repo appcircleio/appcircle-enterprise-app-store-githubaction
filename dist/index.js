@@ -28531,8 +28531,6 @@ async function getProfileId() {
         return (new Date(b.lastBinaryReceivedDate).getTime() -
             new Date(a.lastBinaryReceivedDate).getTime());
     }));
-    console.log('profiles:', profiles);
-    console.log('latest uploaded profile:', profiles[0].id);
     return profiles[0].id;
 }
 exports.getProfileId = getProfileId;
@@ -28540,7 +28538,6 @@ async function checkTaskStatus(taskId, currentAttempt = 0) {
     const response = await exports.appcircleApi.get(`/task/v1/tasks/${taskId}`, {
         headers: UploadServiceHeaders.getHeaders()
     });
-    console.log('Check STatus:', response.data);
     if (response?.data.stateValue == 1 && currentAttempt < 100) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         return checkTaskStatus(taskId, currentAttempt + 1);
@@ -28595,7 +28592,6 @@ const uploadApi_1 = __nccwpck_require__(6077);
 async function run() {
     try {
         const accessToken = core.getInput('accessToken');
-        const entProfileId = core.getInput('entProfileId');
         const appPath = core.getInput('appPath');
         const summary = core.getInput('summary');
         const releaseNotes = core.getInput('releaseNotes');
@@ -28604,7 +28600,6 @@ async function run() {
         uploadApi_1.UploadServiceHeaders.token = loginResponse.access_token;
         console.log('Logged in to Appcircle successfully');
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);
-        console.log('uploadResponse', uploadResponse);
         const status = await (0, uploadApi_1.checkTaskStatus)(uploadResponse.taskId);
         if (!status) {
             core.setFailed(`${uploadResponse.taskId} id upload request failed with status Cancelled`);
@@ -28615,10 +28610,7 @@ async function run() {
             const appVersions = await (0, uploadApi_1.getEnterpriseAppVersions)({
                 entProfileId: profileId
             });
-            console.log('profileId:', profileId);
-            console.log('versions: ', appVersions);
             const entVersionId = appVersions[0].id;
-            console.log('entVersionId:', entVersionId);
             await (0, uploadApi_1.publishEnterpriseAppVersion)({
                 entProfileId: profileId,
                 entVersionId: entVersionId,
@@ -28628,26 +28620,13 @@ async function run() {
             });
         }
         console.log(`${appPath} uploaded to the Appcircle Enterprise Store successfully`);
-        /*I need to get back a profile id for newly created profiles because i do not know which is the profile for publishment after uploading */
-        // const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
-        // const output = execSync(command, { encoding: 'utf-8' })
-        // const list = JSON.parse(output)
-        // await checkTaskStatus(list?.taskId)
-        // const versionCommand = `appcircle enterprise-app-store version list --entProfileId ${entProfileId}  -o json`
-        // const versions = execSync(versionCommand, { encoding: 'utf-8' })
-        // const latestPublishedAppId = JSON.parse(versions)?.[0]?.id
-        // execSync(
-        //   `appcircle enterprise-app-store version publish --entProfileId ${entProfileId} --entVersionId ${latestPublishedAppId} --summary "${summary}" --releaseNotes "${releaseNotes}" --publishType ${publishType}`,
-        //   { encoding: 'utf-8' }
-        // )
     }
     catch (error) {
-        // Fail the workflow run if an error occurs
         if (error instanceof Error) {
             core.setFailed(error.message);
         }
         else {
-            core.setFailed('An unexpected error occurred');
+            core.setFailed(`An unexpected error occurred ${error}`);
         }
     }
 }

@@ -103,9 +103,6 @@ export async function getProfileId() {
     })
   )
 
-  console.log('profiles:', profiles)
-  console.log('latest uploaded profile:', profiles[0].id)
-
   return profiles[0].id
 }
 
@@ -113,8 +110,6 @@ export async function checkTaskStatus(taskId: string, currentAttempt = 0) {
   const response = await appcircleApi.get(`/task/v1/tasks/${taskId}`, {
     headers: UploadServiceHeaders.getHeaders()
   })
-
-  console.log('Check STatus:', response.data)
 
   if (response?.data.stateValue == 1 && currentAttempt < 100) {
     await new Promise(resolve => setTimeout(resolve, 1000))
