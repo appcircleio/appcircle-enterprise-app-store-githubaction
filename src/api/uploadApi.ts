@@ -116,4 +116,10 @@ export async function checkTaskStatus(taskId: string, currentAttempt = 0) {
   if (response?.data.stateValue == 1 && currentAttempt < 100) {
     return checkTaskStatus(taskId, currentAttempt + 1)
   }
+
+  if (response.data.stateValue === 2) {
+    return false
+  }
+
+  return true
 }

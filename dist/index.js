@@ -28542,6 +28542,10 @@ async function checkTaskStatus(taskId, currentAttempt = 0) {
     if (response?.data.stateValue == 1 && currentAttempt < 100) {
         return checkTaskStatus(taskId, currentAttempt + 1);
     }
+    if (response.data.stateValue === 2) {
+        return false;
+    }
+    return true;
 }
 exports.checkTaskStatus = checkTaskStatus;
 
@@ -28600,7 +28604,11 @@ async function run() {
         console.log('Logged in to Appcircle successfully');
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);
         console.log('uploadResponse', uploadResponse);
-        await (0, uploadApi_1.checkTaskStatus)(uploadResponse.taskId);
+        const status = await (0, uploadApi_1.checkTaskStatus)(uploadResponse.taskId);
+        if (!status) {
+            core.setFailed(`${uploadResponse.taskId} id upload request failed with status Cancelled`);
+            return;
+        }
         if (publishType !== '0') {
             const profileId = await (0, uploadApi_1.getEnterpriseProfiles)();
             const appVersions = await (0, uploadApi_1.getEnterpriseAppVersions)({
