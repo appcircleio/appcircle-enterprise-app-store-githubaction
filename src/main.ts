@@ -3,7 +3,9 @@ import { execSync } from 'child_process'
 
 import { getToken } from './api/authApi'
 import {
+  getEnterpriseAppVersions,
   getEnterpriseProfiles,
+  publishEnterpriseAppVersion,
   uploadEnterpriseApp,
   UploadServiceHeaders
 } from './api/uploadApi'
@@ -25,13 +27,29 @@ export async function run(): Promise<void> {
     const loginResponse = await getToken(accessToken)
     UploadServiceHeaders.token = loginResponse.access_token
     console.log('Logged in to Appcircle successfully')
-    console.log('loginResponse', loginResponse)
 
     const uploadResponse = await uploadEnterpriseApp(appPath)
+    await checkTaskStatus(uploadResponse.taskId)
     console.log('uploadResponse', uploadResponse)
 
-    const entProfiles = await getEnterpriseProfiles()
-    console.log('entProfiles', entProfiles)
+    if (publishType !== '0') {
+      const profileId = await getEnterpriseProfiles()
+      const appVersions = await getEnterpriseAppVersions({
+        entProfileId: profileId
+      })
+      console.log('profileId:', profileId)
+      console.log('versions: ', appVersions)
+      const entVersionId = appVersions[0].id
+      console.log('entVersionId:', entVersionId)
+      // await publishEnterpriseAppVersion({
+      //   entProfileId: profileId,
+      //   entVersionId
+      // })
+    }
+
+    console.log(
+      `${appPath} uploaded to the Appcircle Enterprise Store successfully`
+    )
 
     /*I need to get back a profile id for newly created profiles because i do not know which is the profile for publishment after uploading */
 
@@ -50,7 +68,11 @@ export async function run(): Promise<void> {
     // )
   } catch (error) {
     // Fail the workflow run if an error occurs
-    if (error instanceof Error) core.setFailed(error.message)
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+    } else {
+      core.setFailed('An unexpected error occurred')
+    }
   }
 }
 

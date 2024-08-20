@@ -24,10 +24,10 @@ export class UploadServiceHeaders {
 
 export async function getEnterpriseAppVersions(options: {
   entProfileId: string
-  publishType: string
+  publishType?: string
 }) {
   let versionType = ''
-  switch (options.publishType) {
+  switch (options?.publishType) {
     case '1':
       versionType = '?publishtype=Beta'
       break
@@ -47,7 +47,7 @@ export async function getEnterpriseAppVersions(options: {
 }
 
 export async function getEnterpriseProfiles() {
-  const buildProfiles = await appcircleApi.get(`store/v2/profiles`, {
+  const buildProfiles = await appcircleApi.get(`store/v2/profiles?Sort=desc`, {
     headers: UploadServiceHeaders.getHeaders()
   })
   return buildProfiles.data
@@ -70,4 +70,38 @@ export async function uploadEnterpriseApp(app: string) {
     }
   )
   return uploadResponse.data
+}
+
+export async function publishEnterpriseAppVersion(options: {
+  entProfileId: string
+  entVersionId: string
+  summary: string
+  releaseNotes: string
+  publishType: string
+}) {
+  const versionResponse = await appcircleApi.patch(
+    `store/v2/profiles/${options.entProfileId}/app-versions/${options.entVersionId}?action=publish`,
+    {
+      summary: options.summary,
+      releaseNotes: options.releaseNotes,
+      publishType: options.publishType
+    },
+    {
+      headers: UploadServiceHeaders.getHeaders()
+    }
+  )
+  return versionResponse.data
+}
+
+export async function getProfileId() {
+  const profiles = await getEnterpriseProfiles().then(res =>
+    res.sort((a: any, b: any) => {
+      return (
+        new Date(b.lastBinaryReceivedDate).getTime() -
+        new Date(a.lastBinaryReceivedDate).getTime()
+      )
+    })
+  )
+
+  console.log('profiles:', profiles)
 }

@@ -1834,20 +1834,20 @@ function isLoopbackAddress(host) {
 
 /***/ }),
 
-/***/ 812:
+/***/ 4812:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 module.exports =
 {
-  parallel      : __nccwpck_require__(210),
+  parallel      : __nccwpck_require__(8210),
   serial        : __nccwpck_require__(445),
-  serialOrdered : __nccwpck_require__(578)
+  serialOrdered : __nccwpck_require__(3578)
 };
 
 
 /***/ }),
 
-/***/ 700:
+/***/ 1700:
 /***/ ((module) => {
 
 // API
@@ -1883,10 +1883,10 @@ function clean(key)
 
 /***/ }),
 
-/***/ 794:
+/***/ 2794:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var defer = __nccwpck_require__(295);
+var defer = __nccwpck_require__(5295);
 
 // API
 module.exports = async;
@@ -1924,7 +1924,7 @@ function async(callback)
 
 /***/ }),
 
-/***/ 295:
+/***/ 5295:
 /***/ ((module) => {
 
 module.exports = defer;
@@ -1957,11 +1957,11 @@ function defer(fn)
 
 /***/ }),
 
-/***/ 23:
+/***/ 9023:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var async = __nccwpck_require__(794)
-  , abort = __nccwpck_require__(700)
+var async = __nccwpck_require__(2794)
+  , abort = __nccwpck_require__(1700)
   ;
 
 // API
@@ -2039,7 +2039,7 @@ function runJob(iterator, key, item, callback)
 
 /***/ }),
 
-/***/ 474:
+/***/ 2474:
 /***/ ((module) => {
 
 // API
@@ -2083,11 +2083,11 @@ function state(list, sortMethod)
 
 /***/ }),
 
-/***/ 942:
+/***/ 7942:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var abort = __nccwpck_require__(700)
-  , async = __nccwpck_require__(794)
+var abort = __nccwpck_require__(1700)
+  , async = __nccwpck_require__(2794)
   ;
 
 // API
@@ -2119,12 +2119,12 @@ function terminator(callback)
 
 /***/ }),
 
-/***/ 210:
+/***/ 8210:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var iterate    = __nccwpck_require__(23)
-  , initState  = __nccwpck_require__(474)
-  , terminator = __nccwpck_require__(942)
+var iterate    = __nccwpck_require__(9023)
+  , initState  = __nccwpck_require__(2474)
+  , terminator = __nccwpck_require__(7942)
   ;
 
 // Public API
@@ -2172,7 +2172,7 @@ function parallel(list, iterator, callback)
 /***/ 445:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var serialOrdered = __nccwpck_require__(578);
+var serialOrdered = __nccwpck_require__(3578);
 
 // Public API
 module.exports = serial;
@@ -2193,12 +2193,12 @@ function serial(list, iterator, callback)
 
 /***/ }),
 
-/***/ 578:
+/***/ 3578:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var iterate    = __nccwpck_require__(23)
-  , initState  = __nccwpck_require__(474)
-  , terminator = __nccwpck_require__(942)
+var iterate    = __nccwpck_require__(9023)
+  , initState  = __nccwpck_require__(2474)
+  , terminator = __nccwpck_require__(7942)
   ;
 
 // Public API
@@ -2275,12 +2275,12 @@ function descending(a, b)
 
 /***/ }),
 
-/***/ 443:
+/***/ 5443:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var util = __nccwpck_require__(3837);
 var Stream = (__nccwpck_require__(2781).Stream);
-var DelayedStream = __nccwpck_require__(611);
+var DelayedStream = __nccwpck_require__(8611);
 
 module.exports = CombinedStream;
 function CombinedStream() {
@@ -2490,7 +2490,7 @@ CombinedStream.prototype._emitError = function(err) {
 
 /***/ }),
 
-/***/ 222:
+/***/ 8222:
 /***/ ((module, exports, __nccwpck_require__) => {
 
 /* eslint-env browser */
@@ -2747,7 +2747,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __nccwpck_require__(243)(exports);
+module.exports = __nccwpck_require__(6243)(exports);
 
 const {formatters} = module.exports;
 
@@ -2766,7 +2766,7 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 243:
+/***/ 6243:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 
@@ -3047,7 +3047,7 @@ module.exports = setup;
 
 /***/ }),
 
-/***/ 237:
+/***/ 8237:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 /**
@@ -3056,22 +3056,22 @@ module.exports = setup;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __nccwpck_require__(222);
+	module.exports = __nccwpck_require__(8222);
 } else {
-	module.exports = __nccwpck_require__(332);
+	module.exports = __nccwpck_require__(4874);
 }
 
 
 /***/ }),
 
-/***/ 332:
+/***/ 4874:
 /***/ ((module, exports, __nccwpck_require__) => {
 
 /**
  * Module dependencies.
  */
 
-const tty = __nccwpck_require__(224);
+const tty = __nccwpck_require__(6224);
 const util = __nccwpck_require__(3837);
 
 /**
@@ -3098,7 +3098,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __nccwpck_require__(318);
+	const supportsColor = __nccwpck_require__(9318);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -3306,7 +3306,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __nccwpck_require__(243)(exports);
+module.exports = __nccwpck_require__(6243)(exports);
 
 const {formatters} = module.exports;
 
@@ -3334,7 +3334,7 @@ formatters.O = function (v) {
 
 /***/ }),
 
-/***/ 611:
+/***/ 8611:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var Stream = (__nccwpck_require__(2781).Stream);
@@ -3448,7 +3448,7 @@ DelayedStream.prototype._checkIfMaxDataSizeExceeded = function() {
 
 /***/ }),
 
-/***/ 133:
+/***/ 1133:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var debug;
@@ -3457,7 +3457,7 @@ module.exports = function () {
   if (!debug) {
     try {
       /* eslint global-require: off */
-      debug = __nccwpck_require__(237)("follow-redirects");
+      debug = __nccwpck_require__(8237)("follow-redirects");
     }
     catch (error) { /* */ }
     if (typeof debug !== "function") {
@@ -3470,7 +3470,7 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ 707:
+/***/ 7707:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var url = __nccwpck_require__(7310);
@@ -3479,7 +3479,7 @@ var http = __nccwpck_require__(3685);
 var https = __nccwpck_require__(5687);
 var Writable = (__nccwpck_require__(2781).Writable);
 var assert = __nccwpck_require__(9491);
-var debug = __nccwpck_require__(133);
+var debug = __nccwpck_require__(1133);
 
 // Whether to use the native URL object or the legacy url module
 var useNativeURL = false;
@@ -4149,10 +4149,10 @@ module.exports.wrap = wrap;
 
 /***/ }),
 
-/***/ 334:
+/***/ 4334:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var CombinedStream = __nccwpck_require__(443);
+var CombinedStream = __nccwpck_require__(5443);
 var util = __nccwpck_require__(3837);
 var path = __nccwpck_require__(1017);
 var http = __nccwpck_require__(3685);
@@ -4160,9 +4160,9 @@ var https = __nccwpck_require__(5687);
 var parseUrl = (__nccwpck_require__(7310).parse);
 var fs = __nccwpck_require__(7147);
 var Stream = (__nccwpck_require__(2781).Stream);
-var mime = __nccwpck_require__(583);
-var asynckit = __nccwpck_require__(812);
-var populate = __nccwpck_require__(142);
+var mime = __nccwpck_require__(3583);
+var asynckit = __nccwpck_require__(4812);
+var populate = __nccwpck_require__(7142);
 
 // Public API
 module.exports = FormData;
@@ -4657,7 +4657,7 @@ FormData.prototype.toString = function () {
 
 /***/ }),
 
-/***/ 142:
+/***/ 7142:
 /***/ ((module) => {
 
 // populates missing values
@@ -4674,7 +4674,7 @@ module.exports = function(dst, src) {
 
 /***/ }),
 
-/***/ 621:
+/***/ 1621:
 /***/ ((module) => {
 
 "use strict";
@@ -4690,7 +4690,7 @@ module.exports = (flag, argv = process.argv) => {
 
 /***/ }),
 
-/***/ 426:
+/***/ 7426:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 /*!
@@ -4704,12 +4704,12 @@ module.exports = (flag, argv = process.argv) => {
  * Module exports.
  */
 
-module.exports = __nccwpck_require__(765)
+module.exports = __nccwpck_require__(3765)
 
 
 /***/ }),
 
-/***/ 583:
+/***/ 3583:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -4727,7 +4727,7 @@ module.exports = __nccwpck_require__(765)
  * @private
  */
 
-var db = __nccwpck_require__(426)
+var db = __nccwpck_require__(7426)
 var extname = (__nccwpck_require__(1017).extname)
 
 /**
@@ -5074,7 +5074,7 @@ function plural(ms, msAbs, n, name) {
 
 /***/ }),
 
-/***/ 329:
+/***/ 3329:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -5190,14 +5190,14 @@ exports.getProxyForUrl = getProxyForUrl;
 
 /***/ }),
 
-/***/ 318:
+/***/ 9318:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 const os = __nccwpck_require__(2037);
-const tty = __nccwpck_require__(224);
-const hasFlag = __nccwpck_require__(621);
+const tty = __nccwpck_require__(6224);
+const hasFlag = __nccwpck_require__(1621);
 
 const {env} = process;
 
@@ -28419,7 +28419,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 790:
+/***/ 7790:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -28429,7 +28429,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getToken = void 0;
-const axios_1 = __importDefault(__nccwpck_require__(757));
+const axios_1 = __importDefault(__nccwpck_require__(8757));
 const AUTH_HOSTNAME = 'https://auth.appcircle.io';
 async function getToken(pat) {
     const params = new URLSearchParams();
@@ -28447,7 +28447,7 @@ exports.getToken = getToken;
 
 /***/ }),
 
-/***/ 77:
+/***/ 6077:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -28456,10 +28456,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.uploadEnterpriseApp = exports.getEnterpriseProfiles = exports.getEnterpriseAppVersions = exports.UploadServiceHeaders = exports.appcircleApi = void 0;
-const axios_1 = __importDefault(__nccwpck_require__(757));
+exports.getProfileId = exports.publishEnterpriseAppVersion = exports.uploadEnterpriseApp = exports.getEnterpriseProfiles = exports.getEnterpriseAppVersions = exports.UploadServiceHeaders = exports.appcircleApi = void 0;
+const axios_1 = __importDefault(__nccwpck_require__(8757));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
-const form_data_1 = __importDefault(__nccwpck_require__(334));
+const form_data_1 = __importDefault(__nccwpck_require__(4334));
 const API_HOSTNAME = 'https://api.appcircle.io';
 exports.appcircleApi = axios_1.default.create({
     baseURL: API_HOSTNAME.endsWith('/') ? API_HOSTNAME : `${API_HOSTNAME}/`
@@ -28478,7 +28478,7 @@ class UploadServiceHeaders {
 exports.UploadServiceHeaders = UploadServiceHeaders;
 async function getEnterpriseAppVersions(options) {
     let versionType = '';
-    switch (options.publishType) {
+    switch (options?.publishType) {
         case '1':
             versionType = '?publishtype=Beta';
             break;
@@ -28494,7 +28494,7 @@ async function getEnterpriseAppVersions(options) {
 }
 exports.getEnterpriseAppVersions = getEnterpriseAppVersions;
 async function getEnterpriseProfiles() {
-    const buildProfiles = await exports.appcircleApi.get(`store/v2/profiles`, {
+    const buildProfiles = await exports.appcircleApi.get(`store/v2/profiles?Sort=desc`, {
         headers: UploadServiceHeaders.getHeaders()
     });
     return buildProfiles.data;
@@ -28515,6 +28515,25 @@ async function uploadEnterpriseApp(app) {
     return uploadResponse.data;
 }
 exports.uploadEnterpriseApp = uploadEnterpriseApp;
+async function publishEnterpriseAppVersion(options) {
+    const versionResponse = await exports.appcircleApi.patch(`store/v2/profiles/${options.entProfileId}/app-versions/${options.entVersionId}?action=publish`, {
+        summary: options.summary,
+        releaseNotes: options.releaseNotes,
+        publishType: options.publishType
+    }, {
+        headers: UploadServiceHeaders.getHeaders()
+    });
+    return versionResponse.data;
+}
+exports.publishEnterpriseAppVersion = publishEnterpriseAppVersion;
+async function getProfileId() {
+    const profiles = await getEnterpriseProfiles().then(res => res.sort((a, b) => {
+        return (new Date(b.lastBinaryReceivedDate).getTime() -
+            new Date(a.lastBinaryReceivedDate).getTime());
+    }));
+    console.log('profiles:', profiles);
+}
+exports.getProfileId = getProfileId;
 
 
 /***/ }),
@@ -28551,8 +28570,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const child_process_1 = __nccwpck_require__(2081);
-const authApi_1 = __nccwpck_require__(790);
-const uploadApi_1 = __nccwpck_require__(77);
+const authApi_1 = __nccwpck_require__(7790);
+const uploadApi_1 = __nccwpck_require__(6077);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -28569,11 +28588,24 @@ async function run() {
         const loginResponse = await (0, authApi_1.getToken)(accessToken);
         uploadApi_1.UploadServiceHeaders.token = loginResponse.access_token;
         console.log('Logged in to Appcircle successfully');
-        console.log('loginResponse', loginResponse);
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);
+        await checkTaskStatus(uploadResponse.taskId);
         console.log('uploadResponse', uploadResponse);
-        const entProfiles = await (0, uploadApi_1.getEnterpriseProfiles)();
-        console.log('entProfiles', entProfiles);
+        if (publishType !== '0') {
+            const profileId = await (0, uploadApi_1.getEnterpriseProfiles)();
+            const appVersions = await (0, uploadApi_1.getEnterpriseAppVersions)({
+                entProfileId: profileId
+            });
+            console.log('profileId:', profileId);
+            console.log('versions: ', appVersions);
+            const entVersionId = appVersions[0].id;
+            console.log('entVersionId:', entVersionId);
+            // await publishEnterpriseAppVersion({
+            //   entProfileId: profileId,
+            //   entVersionId
+            // })
+        }
+        console.log(`${appPath} uploaded to the Appcircle Enterprise Store successfully`);
         /*I need to get back a profile id for newly created profiles because i do not know which is the profile for publishment after uploading */
         // const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
         // const output = execSync(command, { encoding: 'utf-8' })
@@ -28589,8 +28621,12 @@ async function run() {
     }
     catch (error) {
         // Fail the workflow run if an error occurs
-        if (error instanceof Error)
+        if (error instanceof Error) {
             core.setFailed(error.message);
+        }
+        else {
+            core.setFailed('An unexpected error occurred');
+        }
     }
 }
 exports.run = run;
@@ -28806,7 +28842,7 @@ module.exports = require("tls");
 
 /***/ }),
 
-/***/ 224:
+/***/ 6224:
 /***/ ((module) => {
 
 "use strict";
@@ -30479,20 +30515,20 @@ module.exports = parseParams
 
 /***/ }),
 
-/***/ 757:
+/***/ 8757:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 // Axios v1.7.4 Copyright (c) 2024 Matt Zabriskie and contributors
 
 
-const FormData$1 = __nccwpck_require__(334);
+const FormData$1 = __nccwpck_require__(4334);
 const url = __nccwpck_require__(7310);
-const proxyFromEnv = __nccwpck_require__(329);
+const proxyFromEnv = __nccwpck_require__(3329);
 const http = __nccwpck_require__(3685);
 const https = __nccwpck_require__(5687);
 const util = __nccwpck_require__(3837);
-const followRedirects = __nccwpck_require__(707);
+const followRedirects = __nccwpck_require__(7707);
 const zlib = __nccwpck_require__(9796);
 const stream = __nccwpck_require__(2781);
 const events = __nccwpck_require__(2361);
@@ -35230,7 +35266,7 @@ module.exports = axios;
 
 /***/ }),
 
-/***/ 765:
+/***/ 3765:
 /***/ ((module) => {
 
 "use strict";
