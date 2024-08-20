@@ -29,8 +29,8 @@ export async function run(): Promise<void> {
     console.log('Logged in to Appcircle successfully')
 
     const uploadResponse = await uploadEnterpriseApp(appPath)
-    await checkTaskStatus(uploadResponse.taskId)
     console.log('uploadResponse', uploadResponse)
+    await checkTaskStatus(uploadResponse.taskId)
 
     if (publishType !== '0') {
       const profileId = await getEnterpriseProfiles()

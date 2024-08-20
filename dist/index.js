@@ -28589,8 +28589,8 @@ async function run() {
         uploadApi_1.UploadServiceHeaders.token = loginResponse.access_token;
         console.log('Logged in to Appcircle successfully');
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);
-        await checkTaskStatus(uploadResponse.taskId);
         console.log('uploadResponse', uploadResponse);
+        await checkTaskStatus(uploadResponse.taskId);
         if (publishType !== '0') {
             const profileId = await (0, uploadApi_1.getEnterpriseProfiles)();
             const appVersions = await (0, uploadApi_1.getEnterpriseAppVersions)({
