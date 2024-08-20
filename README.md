@@ -62,10 +62,9 @@ To generate a Personal API Token:
 ```yml
 - name: Publish App to Appcircle
   id: store-publish-appcircle
-  uses: ./
+  uses: appcircleio/appcircle-testing-distribution-githubaction
   with:
     accessToken: ${{ secrets.AC_ACCESS_TOKEN }}
-    entProfileId: ${{ secrets.AC_PROFILE_ID }}
     appPath: ./Appcircle.ipa
     summary: Github Action Summary
     releaseNotes: Github Action Release Notes
