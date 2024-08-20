@@ -28540,6 +28540,7 @@ async function checkTaskStatus(taskId, currentAttempt = 0) {
     });
     console.log('Check STatus:', response.data);
     if (response?.data.stateValue == 1 && currentAttempt < 100) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
         return checkTaskStatus(taskId, currentAttempt + 1);
     }
     if (response.data.stateValue === 2) {
