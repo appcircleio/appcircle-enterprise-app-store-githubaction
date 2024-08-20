@@ -28619,10 +28619,13 @@ async function run() {
             console.log('versions: ', appVersions);
             const entVersionId = appVersions[0].id;
             console.log('entVersionId:', entVersionId);
-            // await publishEnterpriseAppVersion({
-            //   entProfileId: profileId,
-            //   entVersionId
-            // })
+            await (0, uploadApi_1.publishEnterpriseAppVersion)({
+                entProfileId: profileId,
+                entVersionId: entVersionId,
+                summary,
+                releaseNotes,
+                publishType
+            });
         }
         console.log(`${appPath} uploaded to the Appcircle Enterprise Store successfully`);
         /*I need to get back a profile id for newly created profiles because i do not know which is the profile for publishment after uploading */

@@ -47,10 +47,13 @@ export async function run(): Promise<void> {
       console.log('versions: ', appVersions)
       const entVersionId = appVersions[0].id
       console.log('entVersionId:', entVersionId)
-      // await publishEnterpriseAppVersion({
-      //   entProfileId: profileId,
-      //   entVersionId
-      // })
+      await publishEnterpriseAppVersion({
+        entProfileId: profileId,
+        entVersionId: entVersionId,
+        summary,
+        releaseNotes,
+        publishType
+      })
     }
 
     console.log(
