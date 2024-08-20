@@ -28538,6 +28538,7 @@ async function checkTaskStatus(taskId, currentAttempt = 0) {
     const response = await exports.appcircleApi.get(`/task/v1/tasks/${taskId}`, {
         headers: UploadServiceHeaders.getHeaders()
     });
+    console.log('Check STatus:', response.data);
     if (response?.data.stateValue == 1 && currentAttempt < 100) {
         return checkTaskStatus(taskId, currentAttempt + 1);
     }
@@ -28599,7 +28600,7 @@ async function run() {
         console.log('Logged in to Appcircle successfully');
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);
         console.log('uploadResponse', uploadResponse);
-        await checkTaskStatus(uploadResponse.taskId);
+        await (0, uploadApi_1.checkTaskStatus)(uploadResponse.taskId);
         if (publishType !== '0') {
             const profileId = await (0, uploadApi_1.getEnterpriseProfiles)();
             const appVersions = await (0, uploadApi_1.getEnterpriseAppVersions)({
@@ -28639,19 +28640,6 @@ async function run() {
     }
 }
 exports.run = run;
-async function checkTaskStatus(taskId, currentAttempt = 0) {
-    const response = await fetch(`https://api.appcircle.io/task/v1/tasks/${taskId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${uploadApi_1.UploadServiceHeaders.token}`
-        }
-    });
-    const res = await response.json();
-    if (res?.stateValue == 1 && currentAttempt < 100) {
-        return checkTaskStatus(taskId, currentAttempt + 1);
-    }
-}
 
 
 /***/ }),

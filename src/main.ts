@@ -3,6 +3,7 @@ import { execSync } from 'child_process'
 
 import { getToken } from './api/authApi'
 import {
+  checkTaskStatus,
   getEnterpriseAppVersions,
   getEnterpriseProfiles,
   publishEnterpriseAppVersion,
@@ -73,22 +74,5 @@ export async function run(): Promise<void> {
     } else {
       core.setFailed('An unexpected error occurred')
     }
-  }
-}
-
-async function checkTaskStatus(taskId: string, currentAttempt = 0) {
-  const response = await fetch(
-    `https://api.appcircle.io/task/v1/tasks/${taskId}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${UploadServiceHeaders.token}`
-      }
-    }
-  )
-  const res = await response.json()
-  if (res?.stateValue == 1 && currentAttempt < 100) {
-    return checkTaskStatus(taskId, currentAttempt + 1)
   }
 }
