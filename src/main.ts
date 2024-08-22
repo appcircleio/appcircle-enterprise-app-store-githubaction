@@ -22,6 +22,15 @@ export async function run(): Promise<void> {
     const releaseNotes = core.getInput('releaseNotes')
     const publishType = core.getInput('publishType') ?? '0'
 
+    const validExtensions = ['.apk', '.ipa']
+    const fileExtension = appPath.slice(appPath.lastIndexOf('.')).toLowerCase()
+    if (!validExtensions.includes(fileExtension)) {
+      core.setFailed(
+        `Invalid file extension: ${appPath}. For Android, use .apk or .aab. For iOS, use .ip, or use zip.`
+      )
+      return
+    }
+
     const loginResponse = await getToken(personalAPIToken)
     UploadServiceHeaders.token = loginResponse.access_token
     console.log('Logged in to Appcircle successfully')
