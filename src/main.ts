@@ -16,13 +16,13 @@ import {
  */
 export async function run(): Promise<void> {
   try {
-    const accessToken = core.getInput('accessToken')
+    const personalAPIToken = core.getInput('personalAPIToken')
     const appPath = core.getInput('appPath')
     const summary = core.getInput('summary')
     const releaseNotes = core.getInput('releaseNotes')
     const publishType = core.getInput('publishType') ?? '0'
 
-    const loginResponse = await getToken(accessToken)
+    const loginResponse = await getToken(personalAPIToken)
     UploadServiceHeaders.token = loginResponse.access_token
     console.log('Logged in to Appcircle successfully')
 

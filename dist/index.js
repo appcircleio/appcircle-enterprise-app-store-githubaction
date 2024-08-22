@@ -28591,12 +28591,12 @@ const uploadApi_1 = __nccwpck_require__(6077);
  */
 async function run() {
     try {
-        const accessToken = core.getInput('accessToken');
+        const personalAPIToken = core.getInput('personalAPIToken');
         const appPath = core.getInput('appPath');
         const summary = core.getInput('summary');
         const releaseNotes = core.getInput('releaseNotes');
         const publishType = core.getInput('publishType') ?? '0';
-        const loginResponse = await (0, authApi_1.getToken)(accessToken);
+        const loginResponse = await (0, authApi_1.getToken)(personalAPIToken);
         uploadApi_1.UploadServiceHeaders.token = loginResponse.access_token;
         console.log('Logged in to Appcircle successfully');
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);

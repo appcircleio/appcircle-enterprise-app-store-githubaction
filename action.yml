@@ -7,11 +7,9 @@ branding:
   color: 'orange'
 
 inputs:
-  accessToken:
+  personalAPIToken:
     description:
-      'Provide the Appcircle access token to authenticate connections to
-      Appcircle services. This token allows your Azure DevOps pipeline to
-      interact with Appcircle for distributing applications'
+      'Provide Appcircle Personal API Token to authenticate Appcircle services.'
     required: true
   appPath:
     description:
