@@ -53,10 +53,6 @@ flexibility, enhanced security, and a streamlined workflow.
 - Ubuntu
 - Ventura
 
-**Supported Version:**
-
-- Jenkins 2.440.3
-
 Note: We currently support **Appcircle Cloud**, with **self-hosted** support
 planned in our roadmap.
 
