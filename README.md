@@ -45,6 +45,21 @@ These features make the Appcircle Enterprise Mobile App Store a powerful tool
 for securely and efficiently distributing in-house applications, offering
 flexibility, enhanced security, and a streamlined workflow.
 
+### System Requirements
+
+**Compatible Agents:**
+
+- macOS
+- Ubuntu
+- Ventura
+
+**Supported Version:**
+
+- Jenkins 2.440.3
+
+Note: We currently support **Appcircle Cloud**, with **self-hosted** support
+planned in our roadmap.
+
 ![Enterprise App Store Dashboard](images/ent_app_store.png)
 
 ### Generating/Managing the Personal API Tokens
@@ -70,6 +85,23 @@ To generate a Personal API Token:
     releaseNotes: RELEASE_NOTES
     publishType: PUBLISH_TYPE # "0": None, "1": Beta, "2": Live
 ```
+
+- `personalAPIToken`: The Appcircle Personal API token is utilized to
+  authenticate and secure access to Appcircle services, ensuring that only
+  authorized users can perform actions within the platform.
+- `appPath`: Indicates the file path to the application that will be uploaded to
+  Appcircle Testing Distribution Profile.
+- `releaseNote`: Contains the details of changes, updates, and improvements made
+  in the current version of the app being published.
+- `Summary`: Used to provide a brief overview of the version of the app that is
+  about to be published.
+- `publishType`: Specifies the publishing status as either none, beta, or live,
+  and must be assigned the values "0", "1", or "2" accordingly.
+
+**If two builds start simultaneously, such as v1.0.5(5) and v1.0.5(5), for the
+same publishType, the build that finishes last will result in failure because
+the same version cannot be added, while the first build to complete will be
+successfully uploaded and published.**
 
 ### Leveraging Environment Variables
 
