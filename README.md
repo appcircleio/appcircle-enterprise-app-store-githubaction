@@ -64,7 +64,7 @@ To generate a Personal API Token:
   id: store-publish-to-appcircle
   uses: appcircleio/appcircle-enterprise-app-store-githubaction
   with:
-    personalAPIToken: ${{ secrets.AC_ACCESS_TOKEN }}
+    personalAPIToken: ${{ secrets.AC_PERSONAL_API_TOKEN }}
     appPath: APP_PATH
     summary: SUMMARY
     releaseNotes: RELEASE_NOTES
