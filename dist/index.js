@@ -28599,7 +28599,7 @@ async function run() {
         const validExtensions = ['.apk', '.ipa'];
         const fileExtension = appPath.slice(appPath.lastIndexOf('.')).toLowerCase();
         if (!validExtensions.includes(fileExtension)) {
-            core.setFailed(`Invalid file extension: ${appPath}. For Android, use .apk or .aab. For iOS, use .ipa, or use zip.`);
+            core.setFailed(`Invalid file extension: ${appPath}. For Android, use .apk. For iOS, use .ipa.`);
             return;
         }
         const loginResponse = await (0, authApi_1.getToken)(personalAPIToken);
