@@ -1,5 +1,14 @@
 import * as core from '@actions/core'
-import { execSync } from 'child_process'
+
+import { getToken } from './api/authApi'
+import {
+  checkTaskStatus,
+  getEnterpriseAppVersions,
+  getProfileId,
+  publishEnterpriseAppVersion,
+  uploadEnterpriseApp,
+  UploadServiceHeaders
+} from './api/uploadApi'
 
 /**
  * The main function for the action.
@@ -7,50 +16,58 @@ import { execSync } from 'child_process'
  */
 export async function run(): Promise<void> {
   try {
-    execSync(`npm install -g @appcircle/cli`, { stdio: 'inherit' })
-    const accessToken = core.getInput('accessToken')
-    const entProfileId = core.getInput('entProfileId')
+    const personalAPIToken = core.getInput('personalAPIToken')
     const appPath = core.getInput('appPath')
     const summary = core.getInput('summary')
     const releaseNotes = core.getInput('releaseNotes')
     const publishType = core.getInput('publishType') ?? '0'
 
-    execSync(`appcircle login --pat=${accessToken}`, { stdio: 'inherit' })
-    const command = `appcircle enterprise-app-store version upload-for-profile --entProfileId ${entProfileId} --app ${appPath} -o json`
-    const output = execSync(command, { encoding: 'utf-8' })
-    const list = JSON.parse(output)
+    const validExtensions = ['.apk', '.ipa']
+    const fileExtension = appPath.slice(appPath.lastIndexOf('.')).toLowerCase()
+    if (!validExtensions.includes(fileExtension)) {
+      core.setFailed(
+        `Invalid file extension: ${appPath}. For Android, use .apk. For iOS, use .ipa.`
+      )
+      return
+    }
 
-    await checkTaskStatus(list?.taskId)
+    const loginResponse = await getToken(personalAPIToken)
+    UploadServiceHeaders.token = loginResponse.access_token
+    console.log('Logged in to Appcircle successfully')
 
-    const versionCommand = `appcircle enterprise-app-store version list --entProfileId ${entProfileId}  -o json`
-    const versions = execSync(versionCommand, { encoding: 'utf-8' })
-    const latestPublishedAppId = JSON.parse(versions)?.[0]?.id
-    execSync(
-      `appcircle enterprise-app-store version publish --entProfileId ${entProfileId} --entVersionId ${latestPublishedAppId} --summary "${summary}" --releaseNotes "${releaseNotes}" --publishType ${publishType}`,
-      { encoding: 'utf-8' }
+    const uploadResponse = await uploadEnterpriseApp(appPath)
+    const status = await checkTaskStatus(uploadResponse.taskId)
+
+    if (!status) {
+      core.setFailed(
+        `${uploadResponse.taskId} id upload request failed with status Cancelled`
+      )
+      return
+    }
+
+    if (publishType !== '0') {
+      const profileId = await getProfileId()
+      const appVersions = await getEnterpriseAppVersions({
+        entProfileId: profileId
+      })
+      const entVersionId = appVersions[0].id
+      await publishEnterpriseAppVersion({
+        entProfileId: profileId,
+        entVersionId: entVersionId,
+        summary,
+        releaseNotes,
+        publishType
+      })
+    }
+
+    console.log(
+      `${appPath} uploaded to the Appcircle Enterprise Store successfully`
     )
   } catch (error) {
-    // Fail the workflow run if an error occurs
-    if (error instanceof Error) core.setFailed(error.message)
-  }
-}
-
-async function checkTaskStatus(taskId: string, currentAttempt = 0) {
-  const tokenCommand = `appcircle config get AC_ACCESS_TOKEN -o json`
-  const output = execSync(tokenCommand, { encoding: 'utf-8' })
-  const apiAccessToken = JSON.parse(output)?.AC_ACCESS_TOKEN
-  const response = await fetch(
-    `https://api.appcircle.io/task/v1/tasks/${taskId}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiAccessToken}`
-      }
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+    } else {
+      core.setFailed(`An unexpected error occurred ${error}`)
     }
-  )
-  const res = await response.json()
-  if (res?.stateValue == 1 && currentAttempt < 100) {
-    return checkTaskStatus(taskId, currentAttempt + 1)
   }
 }

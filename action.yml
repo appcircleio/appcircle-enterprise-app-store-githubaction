@@ -1,23 +1,15 @@
-name: 'Appcircle Enterprise Store'
+name: 'Appcircle Enterprise App Store'
 author: 'appcircleio'
-description: 'Efficiently publish your apps to Appcircle Enterprise Store.'
+description: 'Efficiently publish your apps to Appcircle Enterprise App Store.'
 
 branding:
   icon: 'activity'
   color: 'orange'
 
 inputs:
-  accessToken:
+  personalAPIToken:
     description:
-      'Provide the Appcircle access token to authenticate connections to
-      Appcircle services. This token allows your Azure DevOps pipeline to
-      interact with Appcircle for distributing applications'
-    required: true
-  entProfileId:
-    description:
-      'Provide the Appcircle Enterprise App Store Mobile Profile ID to specify
-      the profile to be used for the publishment. This ID can be found in the
-      Enterprise App Store Mobile module dashboard.'
+      'Provide Appcircle Personal API Token to authenticate Appcircle services.'
     required: true
   appPath:
     description:
