@@ -49,12 +49,11 @@ flexibility, enhanced security, and a streamlined workflow.
 
 **Compatible Agents:**
 
-- macOS
-- Ubuntu
-- Ventura
+- macos-14 (arm64)
+- Ubuntu-22.04
 
-Note: We currently support **Appcircle Cloud**, with **self-hosted** support
-planned in our roadmap.
+Note: Currently, plugins are only compatible to use with Appcircle Cloud.
+Self-hosted support will be available in future releases.
 
 ![Enterprise App Store Dashboard](images/ent_app_store.png)
 
@@ -94,16 +93,18 @@ To generate a Personal API Token:
 - `publishType`: Specifies the publishing status as either none, beta, or live,
   and must be assigned the values "0", "1", or "2" accordingly.
 
-**If two builds start simultaneously, such as v1.0.5(5) and v1.0.5(5), for the
-same publishType, the build that finishes last will result in failure because
-the same version cannot be added, while the first build to complete will be
-successfully uploaded and published.**
-
 ### Leveraging Environment Variables
 
 Utilize environment variables seamlessly by substituting the parameters with
 ${{ envs.VARIABLE_NAME }} in your task inputs. The action automatically
 retrieves values from the specified environment variables within your pipeline.
+
+**Ensure that this action is added after build steps have been completed.**
+
+**If two workflows start simultaneously, the last workflow to reach the publish
+step will be the up-to-date version on the Enterprise App Store. If these
+workflows building the same package version, the first publish will be
+successful, while later deployments with the same version will fail.**
 
 If you would like to learn more about this action and how to utilize it in your
 projects, please
