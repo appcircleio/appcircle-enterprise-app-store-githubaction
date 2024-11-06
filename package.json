@@ -1,7 +1,7 @@
 {
   "name": "appcircle-enterprise-app-store",
   "description": "Enterprise Mobile App Store",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Appcircle",
   "private": true,
   "homepage": "https://github.com/appcircleio/appcircle-enterprise-store-githubaction",
