@@ -6,6 +6,7 @@ import {
   getEnterpriseAppVersions,
   getProfileId,
   publishEnterpriseAppVersion,
+  setApiEndpoint,
   uploadEnterpriseApp,
   UploadServiceHeaders
 } from './api/uploadApi'
@@ -17,10 +18,16 @@ import {
 export async function run(): Promise<void> {
   try {
     const personalAPIToken = core.getInput('personalAPIToken')
+    const authEndpoint =
+      core.getInput('authEndpoint') || 'https://auth.appcircle.io'
+    const apiEndpoint =
+      core.getInput('apiEndpoint') || 'https://api.appcircle.io'
     const appPath = core.getInput('appPath')
     const summary = core.getInput('summary')
     const releaseNotes = core.getInput('releaseNotes')
     const publishType = core.getInput('publishType') ?? '0'
+
+    setApiEndpoint(apiEndpoint)
 
     const validExtensions = ['.apk', '.aab', '.ipa']
     const fileExtension = appPath.slice(appPath.lastIndexOf('.')).toLowerCase()
@@ -31,7 +38,7 @@ export async function run(): Promise<void> {
       return
     }
 
-    const loginResponse = await getToken(personalAPIToken)
+    const loginResponse = await getToken(personalAPIToken, authEndpoint)
     UploadServiceHeaders.token = loginResponse.access_token
     console.log('Logged in to Appcircle successfully')
 
