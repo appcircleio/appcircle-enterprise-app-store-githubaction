@@ -1,7 +1,7 @@
 {
   "name": "appcircle-enterprise-app-store",
   "description": "Enterprise Mobile App Store",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Appcircle",
   "private": true,
   "homepage": "https://github.com/appcircleio/appcircle-enterprise-store-githubaction",
@@ -93,5 +93,8 @@
     "prettier-eslint": "^16.3.0",
     "ts-jest": "^29.1.4",
     "typescript": "^5.4.5"
+  },
+  "resolutions": {
+    "braces": "^3.0.3"
   }
 }

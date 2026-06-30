@@ -52,8 +52,9 @@ flexibility, enhanced security, and a streamlined workflow.
 - macos-14 (arm64)
 - Ubuntu-22.04
 
-Note: Currently, plugins are only compatible to use with Appcircle Cloud.
-Self-hosted support will be available in future releases.
+Note: Both Appcircle Cloud and self-hosted Appcircle installations are supported.
+See [Self-Hosted Appcircle](#self-hosted-appcircle) below to configure custom
+endpoints.
 
 ![Enterprise App Store Dashboard](images/ent_app_store.png)
 
@@ -92,6 +93,39 @@ To generate a Personal API Token:
   about to be published.
 - `publishType`: Specifies the publishing status as either none, beta, or live,
   and must be assigned the values "0", "1", or "2" accordingly.
+
+### Self-Hosted Appcircle
+
+If you run a self-hosted Appcircle installation, point the action to your own
+servers with the optional `authEndpoint` and `apiEndpoint` inputs. When omitted,
+they default to the Appcircle cloud (`https://auth.appcircle.io` and
+`https://api.appcircle.io`), so existing cloud workflows keep working without any
+change.
+
+```yml
+- name: Publish App to Appcircle Enterprise App Store
+  uses: appcircleio/appcircle-enterprise-app-store-githubaction
+  with:
+    personalAPIToken: ${{ secrets.AC_PERSONAL_API_TOKEN }}
+    appPath: APP_PATH
+    summary: SUMMARY
+    releaseNotes: RELEASE_NOTES
+    publishType: PUBLISH_TYPE # "0": None, "1": Beta, "2": Live
+    authEndpoint: https://auth.your-appcircle-domain.com
+    apiEndpoint: https://api.your-appcircle-domain.com
+```
+
+- `authEndpoint`: Base URL of the self-hosted Appcircle authentication server.
+  Optional; defaults to `https://auth.appcircle.io`.
+- `apiEndpoint`: Base URL of the self-hosted Appcircle API server. Optional;
+  defaults to `https://api.appcircle.io`.
+
+> **Self-signed or private CA certificates:** If your self-hosted Appcircle server
+> uses a self-signed certificate (or one issued by a private/internal CA), requests
+> will fail certificate validation. The action does not disable TLS verification.
+> Trust the server's CA on the runner — set the `NODE_EXTRA_CA_CERTS` environment
+> variable to a PEM file containing the CA certificate, or add the CA to the system
+> certificate store.
 
 ### Leveraging Environment Variables
 
