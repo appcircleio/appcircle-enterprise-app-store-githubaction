@@ -10,15 +10,6 @@ access to in-house apps with a customizable mobile storefront.
 - **No MDM Required:** Allows distribution of B2B and B2E applications without
   the need for an MDM solution and enrollment.
 
-**Flexible Sharing Options**
-
-- **Beta and Live Channels:** Share your app on the Beta channel for testing new features or identifying bugs, or on the Live channel for stable versions.
-- **Unlisted Publishing:** Publish an app version as unlisted to make it accessible only through a direct link, without appearing in the store's app list.
-
-**Re-Sign and Auto-Resign**
-
-- **Update Without Rebuilding:** Re-sign iOS and Android binaries with updated signing identities, manually or automatically, and keep distributing without a new build.
-
 Learn more about
 [Appcircle Enterprise App Store](https://appcircle.io/enterprise-app-store?utm_source=github&utm_medium=plugin&utm_campaign=enterprise_app_store).
 
@@ -28,9 +19,8 @@ Learn more about
    - **Skip Traditional Stores:** Share .IPA, APK, or AAB files directly,
      avoiding the need to wait for Apple App Store or Google Play approvals.
 2. **Flexible Sharing Options:**
-   - **Beta and Live Modes:** Share your app in ‘beta’ mode for testing new
-     features or identifying bugs, or in ‘live’ mode for stable versions. This
-     flexibility helps maintain the development lifecycle without interruptions.
+   - **Beta and Live Channels:** Share your app on the Beta channel for testing new features or identifying bugs, or on the Live channel for stable versions.
+   - **Unlisted Publishing:** Publish an app version as unlisted to make it accessible only through a direct link, without appearing in the store's app list.
 3. **Enhanced Security:**
    - **Secure Authentication:** Access the Enterprise App Store with
      extra secure authentication using Enterprise Authentication Methods.
@@ -49,6 +39,8 @@ Learn more about
      making it easy to manage and distribute apps within your organization.
    - **Efficient Management:** Track and manage applications, versions, testers,
      and teams effectively, ensuring a smooth distribution process.
+7. **Re-Sign and Auto-Resign:**
+   - **Update Without Rebuilding:** Re-sign iOS and Android binaries with updated signing identities, manually or automatically, and keep distributing without a new build.
 
 These features make the Appcircle Enterprise App Store a powerful tool
 for securely and efficiently distributing in-house applications, offering
@@ -71,13 +63,13 @@ endpoints.
 
 To generate a Personal API Token:
 
-1. Go to the My Organization screen (second option at the bottom left).
-2. Find the Personal API Token section in the top right corner.
-3. Press the "Generate Token" button to generate your first token.
+1. Open the **My Organization** screen from your profile avatar at the bottom left.
+2. Go to the **Security** section and find the **Personal Access Key** card.
+3. Press **Generate Key** to generate your token.
 
 ![Token Generation](images/PAT.png)
 
-## How to use Appcircle Enterprise Store Action
+## How to use Appcircle Enterprise App Store Action
 
 ```yml
 - name: Publish App to Appcircle Enterprise App Store
