@@ -156,4 +156,4 @@ projects, please
 ### Reference
 
 For more detailed instructions and support, visit the
-[Appcircle Enterprise App Store documentation](https://appcircle.io/enterprise-app-store?utm_source=github&utm_medium=plugin&utm_campaign=enterprise_app_store).
+[Appcircle Enterprise App Store documentation](https://docs.appcircle.io/marketplace/github-marketplace/enterprise-app-store?utm_source=github&utm_medium=plugin&utm_campaign=enterprise_app_store).
