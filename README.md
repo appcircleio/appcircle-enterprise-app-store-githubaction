@@ -1,6 +1,6 @@
 ## Appcircle Enterprise App Store
 
-Appcircle Enterprise Mobile App Store is your own mobile app store for providing
+Appcircle Enterprise App Store is your own mobile app store for providing
 access to in-house apps with a customizable mobile storefront.
 
 - **Customizable Storefront:** Distribute your in-house apps with a fully
@@ -13,17 +13,16 @@ access to in-house apps with a customizable mobile storefront.
 Learn more about
 [Appcircle Enterprise App Store](https://appcircle.io/enterprise-app-store?utm_source=github&utm_medium=plugin&utm_campaign=enterprise_app_store).
 
-## What Sets Apart Appcircle Enterprise Mobile App Store
+## What Sets Apart Appcircle Enterprise App Store
 
 1. **Direct File Sharing:**
    - **Skip Traditional Stores:** Share .IPA, APK, or AAB files directly,
      avoiding the need to wait for Apple App Store or Google Play approvals.
 2. **Flexible Sharing Options:**
-   - **Beta and Live Modes:** Share your app in ‘beta’ mode for testing new
-     features or identifying bugs, or in ‘live’ mode for stable versions. This
-     flexibility helps maintain the development lifecycle without interruptions.
+   - **Beta and Live Channels:** Share your app on the Beta channel for testing new features or identifying bugs, or on the Live channel for stable versions.
+   - **Unlisted Publishing:** Publish an app version as unlisted to make it accessible only through a direct link, without appearing in the store's app list.
 3. **Enhanced Security:**
-   - **Secure Authentication:** Access the Enterprise Mobile App Store with
+   - **Secure Authentication:** Access the Enterprise App Store with
      extra secure authentication using Enterprise Authentication Methods.
    - **Controlled Access:** Ensure that only authorized users can access the app
      store and its contents.
@@ -40,8 +39,10 @@ Learn more about
      making it easy to manage and distribute apps within your organization.
    - **Efficient Management:** Track and manage applications, versions, testers,
      and teams effectively, ensuring a smooth distribution process.
+7. **Re-Sign and Auto-Resign:**
+   - **Update Without Rebuilding:** Re-sign iOS and Android binaries with updated signing identities, manually or automatically, and keep distributing without a new build.
 
-These features make the Appcircle Enterprise Mobile App Store a powerful tool
+These features make the Appcircle Enterprise App Store a powerful tool
 for securely and efficiently distributing in-house applications, offering
 flexibility, enhanced security, and a streamlined workflow.
 
@@ -62,13 +63,13 @@ endpoints.
 
 To generate a Personal API Token:
 
-1. Go to the My Organization screen (second option at the bottom left).
-2. Find the Personal API Token section in the top right corner.
-3. Press the "Generate Token" button to generate your first token.
+1. Open the **My Organization** screen from your profile avatar at the bottom left.
+2. Go to the **Security** section and find the **Personal Access Key** card.
+3. Press **Generate Key** to generate your token.
 
 ![Token Generation](images/PAT.png)
 
-## How to use Appcircle Enterprise Store Action
+## How to use Appcircle Enterprise App Store Action
 
 ```yml
 - name: Publish App to Appcircle Enterprise App Store
@@ -86,7 +87,7 @@ To generate a Personal API Token:
   authenticate and secure access to Appcircle services, ensuring that only
   authorized users can perform actions within the platform.
 - `appPath`: Indicates the file path to the application that will be uploaded to
-  Appcircle Testing Distribution Profile.
+  the Appcircle Enterprise App Store.
 - `releaseNote`: Contains the details of changes, updates, and improvements made
   in the current version of the app being published.
 - `Summary`: Used to provide a brief overview of the version of the app that is
@@ -123,7 +124,7 @@ change.
 > **Self-signed or private CA certificates:** If your self-hosted Appcircle server
 > uses a self-signed certificate (or one issued by a private/internal CA), requests
 > will fail certificate validation. The action does not disable TLS verification.
-> Trust the server's CA on the runner — set the `NODE_EXTRA_CA_CERTS` environment
+> Trust the server's CA on the runner: set the `NODE_EXTRA_CA_CERTS` environment
 > variable to a PEM file containing the CA certificate, or add the CA to the system
 > certificate store.
 
@@ -147,4 +148,4 @@ projects, please
 ### Reference
 
 For more detailed instructions and support, visit the
-[Appcircle Enterprise App Store documentation](https://appcircle.io/enterprise-app-store?utm_source=github&utm_medium=plugin&utm_campaign=enterprise_app_store).
+[Appcircle Enterprise App Store documentation](https://docs.appcircle.io/marketplace/github-marketplace/enterprise-app-store?utm_source=github&utm_medium=plugin&utm_campaign=enterprise_app_store).

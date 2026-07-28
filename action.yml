@@ -1,6 +1,8 @@
 name: 'Appcircle Enterprise App Store'
 author: 'appcircleio'
-description: 'Efficiently publish your apps to Appcircle Enterprise App Store.'
+description:
+  'Appcircle Enterprise App Store is your own mobile app store for providing
+  access to in-house apps with a customizable mobile storefront.'
 
 branding:
   icon: 'activity'
@@ -40,5 +42,5 @@ inputs:
     required: false
     default: '0'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
