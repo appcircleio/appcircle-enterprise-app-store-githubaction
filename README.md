@@ -95,6 +95,33 @@ To generate a Personal API Token:
 - `publishType`: Specifies the publishing status as either none, beta, or live,
   and must be assigned the values "0", "1", or "2" accordingly.
 
+### Sub-Organizations
+
+If your Personal API Token belongs to the root organization but the target
+Enterprise App Store profile lives in a sub-organization, set the optional
+`subOrganizationName` input. The action re-authenticates the same token against
+that sub-organization and runs every subsequent call there, so the upload and
+publish land in the sub-organization instead of the root organization.
+
+```yml
+- name: Publish App to Appcircle Enterprise App Store
+  uses: appcircleio/appcircle-enterprise-app-store-githubaction
+  with:
+    personalAPIToken: ${{ secrets.AC_PERSONAL_API_TOKEN }}
+    subOrganizationName: YOUR_SUB_ORGANIZATION_NAME
+    appPath: APP_PATH
+    summary: SUMMARY
+    releaseNotes: RELEASE_NOTES
+    publishType: PUBLISH_TYPE # "0": None, "1": Beta, "2": Live
+```
+
+- `subOrganizationName`: Name of the sub-organization to upload into. Optional;
+  defaults to the root organization. The name must match exactly and the token
+  must have access to that sub-organization, otherwise the action fails instead
+  of falling back to the root organization.
+  It works the same way against a self-hosted installation; combine it with the
+  `authEndpoint` and `apiEndpoint` inputs described below.
+
 ### Self-Hosted Appcircle
 
 If you run a self-hosted Appcircle installation, point the action to your own
