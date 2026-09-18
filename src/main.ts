@@ -4,6 +4,7 @@ import { getToken } from './api/authApi'
 import {
   checkTaskStatus,
   getEnterpriseAppVersions,
+  getOrganizationId,
   getProfileId,
   publishEnterpriseAppVersion,
   setApiEndpoint,
@@ -26,6 +27,7 @@ export async function run(): Promise<void> {
     const summary = core.getInput('summary')
     const releaseNotes = core.getInput('releaseNotes')
     const publishType = core.getInput('publishType') ?? '0'
+    const subOrganizationName = core.getInput('subOrganizationName')
 
     setApiEndpoint(apiEndpoint)
 
@@ -41,6 +43,31 @@ export async function run(): Promise<void> {
     const loginResponse = await getToken(personalAPIToken, authEndpoint)
     UploadServiceHeaders.token = loginResponse.access_token
     console.log('Logged in to Appcircle successfully')
+
+    if (subOrganizationName) {
+      const subOrganizationId = await getOrganizationId(subOrganizationName)
+      let subLoginResponse
+      try {
+        subLoginResponse = await getToken(
+          personalAPIToken,
+          authEndpoint,
+          subOrganizationId
+        )
+      } catch (error: any) {
+        const httpStatus = error?.response?.status
+        throw new Error(
+          `Could not authenticate against sub-organization '${subOrganizationName}'` +
+            `${httpStatus ? ` (HTTP ${httpStatus})` : ''}: ${error?.message}`
+        )
+      }
+      if (!subLoginResponse?.access_token) {
+        throw new Error(
+          `Could not obtain an access token for sub-organization '${subOrganizationName}'.`
+        )
+      }
+      UploadServiceHeaders.token = subLoginResponse.access_token
+      console.log(`Switched to sub-organization: ${subOrganizationName}`)
+    }
 
     const uploadResponse = await uploadEnterpriseApp(appPath)
     const status = await checkTaskStatus(uploadResponse.taskId)
