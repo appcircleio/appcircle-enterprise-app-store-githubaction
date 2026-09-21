@@ -33031,11 +33031,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getToken = getToken;
 const axios_1 = __importDefault(__nccwpck_require__(7269));
-async function getToken(pat, authEndpoint = 'https://auth.appcircle.io') {
+async function getToken(pat, authEndpoint = 'https://auth.appcircle.io', subOrganizationId) {
     const params = new URLSearchParams();
     params.append('pat', pat);
+    const tokenPath = subOrganizationId ? '/auth/v2/token' : '/auth/v1/token';
+    if (subOrganizationId) {
+        params.append('subOrganizationId', subOrganizationId);
+    }
     const authHostname = authEndpoint.replace(/\/+$/, '');
-    const response = await axios_1.default.post(`${authHostname}/auth/v1/token`, params.toString(), {
+    const response = await axios_1.default.post(`${authHostname}${tokenPath}`, params.toString(), {
         headers: {
             accept: 'application/json',
             'content-type': 'application/x-www-form-urlencoded'
@@ -33058,6 +33062,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UploadServiceHeaders = exports.appcircleApi = void 0;
 exports.setApiEndpoint = setApiEndpoint;
+exports.getOrganizationId = getOrganizationId;
 exports.getEnterpriseAppVersions = getEnterpriseAppVersions;
 exports.getEnterpriseProfiles = getEnterpriseProfiles;
 exports.uploadEnterpriseApp = uploadEnterpriseApp;
@@ -33113,6 +33118,18 @@ class UploadServiceHeaders {
     };
 }
 exports.UploadServiceHeaders = UploadServiceHeaders;
+async function getOrganizationId(name) {
+    const response = await exports.appcircleApi.get('identity/v1/organizations', {
+        params: { page: 1, perPage: 1000 },
+        headers: UploadServiceHeaders.getHeaders()
+    });
+    const organizations = response.data?.data ?? [];
+    const organization = organizations.find(org => org.name === name);
+    if (!organization?.id) {
+        throw new Error(`Sub-organization '${name}' could not be found or is not accessible with this token.`);
+    }
+    return organization.id;
+}
 async function getEnterpriseAppVersions(options) {
     let versionType = '';
     switch (options?.publishType) {
@@ -33258,6 +33275,7 @@ async function run() {
         const summary = core.getInput('summary');
         const releaseNotes = core.getInput('releaseNotes');
         const publishType = core.getInput('publishType') ?? '0';
+        const subOrganizationName = core.getInput('subOrganizationName');
         (0, uploadApi_1.setApiEndpoint)(apiEndpoint);
         const validExtensions = ['.apk', '.aab', '.ipa'];
         const fileExtension = appPath.slice(appPath.lastIndexOf('.')).toLowerCase();
@@ -33268,6 +33286,23 @@ async function run() {
         const loginResponse = await (0, authApi_1.getToken)(personalAPIToken, authEndpoint);
         uploadApi_1.UploadServiceHeaders.token = loginResponse.access_token;
         console.log('Logged in to Appcircle successfully');
+        if (subOrganizationName) {
+            const subOrganizationId = await (0, uploadApi_1.getOrganizationId)(subOrganizationName);
+            let subLoginResponse;
+            try {
+                subLoginResponse = await (0, authApi_1.getToken)(personalAPIToken, authEndpoint, subOrganizationId);
+            }
+            catch (error) {
+                const httpStatus = error?.response?.status;
+                throw new Error(`Could not authenticate against sub-organization '${subOrganizationName}'` +
+                    `${httpStatus ? ` (HTTP ${httpStatus})` : ''}: ${error?.message}`);
+            }
+            if (!subLoginResponse?.access_token) {
+                throw new Error(`Could not obtain an access token for sub-organization '${subOrganizationName}'.`);
+            }
+            uploadApi_1.UploadServiceHeaders.token = subLoginResponse.access_token;
+            console.log(`Switched to sub-organization: ${subOrganizationName}`);
+        }
         const uploadResponse = await (0, uploadApi_1.uploadEnterpriseApp)(appPath);
         const status = await (0, uploadApi_1.checkTaskStatus)(uploadResponse.taskId);
         if (!status) {
