@@ -70,14 +70,7 @@ export async function run(): Promise<void> {
     }
 
     const uploadResponse = await uploadEnterpriseApp(appPath)
-    const status = await checkTaskStatus(uploadResponse.taskId)
-
-    if (!status) {
-      core.setFailed(
-        `${uploadResponse.taskId} id upload request failed with status Cancelled`
-      )
-      return
-    }
+    await checkTaskStatus(uploadResponse.taskId)
 
     if (publishType !== '0') {
       const profileId = await getProfileId()
