@@ -33030,6 +33030,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getToken = getToken;
+exports.validateEndpoints = validateEndpoints;
 const axios_1 = __importDefault(__nccwpck_require__(7269));
 async function getToken(pat, authEndpoint = 'https://auth.appcircle.io', subOrganizationId) {
     const params = new URLSearchParams();
@@ -33046,6 +33047,18 @@ async function getToken(pat, authEndpoint = 'https://auth.appcircle.io', subOrga
         }
     });
     return response.data;
+}
+const CLOUD_AUTH_ENDPOINT = 'https://auth.appcircle.io';
+const CLOUD_API_ENDPOINT = 'https://api.appcircle.io';
+function isCloudEndpoint(endpoint, cloudEndpoint) {
+    const value = (endpoint ?? '').trim().replace(/\/+$/, '');
+    return value === '' || value.toLowerCase() === cloudEndpoint;
+}
+function validateEndpoints(authEndpoint, apiEndpoint) {
+    if (isCloudEndpoint(authEndpoint, CLOUD_AUTH_ENDPOINT) !==
+        isCloudEndpoint(apiEndpoint, CLOUD_API_ENDPOINT)) {
+        throw new Error('Set both authEndpoint and apiEndpoint for a self-hosted Appcircle server, or leave both empty for the Appcircle cloud.');
+    }
 }
 
 
@@ -33348,6 +33361,7 @@ async function run() {
         const releaseNotes = core.getInput('releaseNotes');
         const publishType = core.getInput('publishType') ?? '0';
         const subOrganizationName = core.getInput('subOrganizationName');
+        (0, authApi_1.validateEndpoints)(authEndpoint, apiEndpoint);
         (0, uploadApi_1.setApiEndpoint)(apiEndpoint);
         const validExtensions = ['.apk', '.aab', '.ipa'];
         const fileExtension = appPath.slice(appPath.lastIndexOf('.')).toLowerCase();
